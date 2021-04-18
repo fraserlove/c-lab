@@ -1,0 +1,55 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage1
+Length? \PYG{l+m}{2}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}\PYG{o}{]}
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage2
+Length? \PYG{l+m}{2}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}\PYG{o}{]}
+
+
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage1
+Length? \PYGZhy{}1
+Invalid input
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage2
+Length? \PYGZhy{}1
+Invalid input
+
+
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage1
+Length? \PYG{l+m}{30}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}, \PYG{l+m}{1}, \PYG{l+m}{3}, \PYG{l+m}{5}, \PYG{l+m}{11}, \PYG{l+m}{21}, \PYG{l+m}{43}, \PYG{l+m}{85}, \PYG{l+m}{171}, \PYG{l+m}{341}, \PYG{l+m}{683}, \PYG{l+m}{1365}, \PYG{l+m}{2731}, \PYG{l+m}{5461}, \PYG{l+m}{10923}, \PYG{l+m}{21845}, \PYG{l+m}{43691},
+\PYG{l+m}{87381}, \PYG{l+m}{174763}, \PYG{l+m}{349525}, \PYG{l+m}{699051}, \PYG{l+m}{1398101}, \PYG{l+m}{2796203}, \PYG{l+m}{5592405}, \PYG{l+m}{11184811}, \PYG{l+m}{22369621}, \PYG{l+m}{44739243},
+\PYG{l+m}{89478485}, \PYG{l+m}{178956971}\PYG{o}{]}
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage2
+Length? \PYG{l+m}{30}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}, \PYG{l+m}{1}, \PYG{l+m}{3}, \PYG{l+m}{5}, \PYG{l+m}{11}, \PYG{l+m}{21}, \PYG{l+m}{43}, \PYG{l+m}{85}, \PYG{l+m}{171}, \PYG{l+m}{341}, \PYG{l+m}{683}, \PYG{l+m}{1365}, \PYG{l+m}{2731}, \PYG{l+m}{5461}, \PYG{l+m}{10923}, \PYG{l+m}{21845}, \PYG{l+m}{43691},
+\PYG{l+m}{87381}, \PYG{l+m}{174763}, \PYG{l+m}{349525}, \PYG{l+m}{699051}, \PYG{l+m}{1398101}, \PYG{l+m}{2796203}, \PYG{l+m}{5592405}, \PYG{l+m}{11184811}, \PYG{l+m}{22369621}, \PYG{l+m}{44739243},
+\PYG{l+m}{89478485}, \PYG{l+m}{178956971}\PYG{o}{]}
+
+
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage2
+Length? \PYG{l+m}{66}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}, \PYG{l+m}{1}, \PYG{l+m}{3}, \PYG{l+m}{5}, \PYG{l+m}{11}, \PYG{l+m}{21}, \PYG{l+m}{43}, \PYG{l+m}{85}, \PYG{l+m}{171}, \PYG{l+m}{341}, \PYG{l+m}{683}, \PYG{l+m}{1365}, \PYG{l+m}{2731}, \PYG{l+m}{5461}, \PYG{l+m}{10923}, \PYG{l+m}{21845}, \PYG{l+m}{43691},
+\PYG{l+m}{87381}, \PYG{l+m}{174763}, \PYG{l+m}{349525}, \PYG{l+m}{699051}, \PYG{l+m}{1398101}, \PYG{l+m}{2796203}, \PYG{l+m}{5592405}, \PYG{l+m}{11184811}, \PYG{l+m}{22369621}, \PYG{l+m}{44739243},
+\PYG{l+m}{89478485}, \PYG{l+m}{178956971}, \PYG{l+m}{357913941}, \PYG{l+m}{715827883}, \PYG{l+m}{1431655765}, \PYG{l+m}{2863311531}, \PYG{l+m}{5726623061}, \PYG{l+m}{11453246123},
+\PYG{l+m}{22906492245}, \PYG{l+m}{45812984491}, \PYG{l+m}{91625968981}, \PYG{l+m}{183251937963}, \PYG{l+m}{366503875925}, \PYG{l+m}{733007751851}, \PYG{l+m}{1466015503701},
+\PYG{l+m}{2932031007403}, \PYG{l+m}{5864062014805}, \PYG{l+m}{11728124029611}, \PYG{l+m}{23456248059221}, \PYG{l+m}{46912496118443}, \PYG{l+m}{93824992236885},
+\PYG{l+m}{187649984473771}, \PYG{l+m}{375299968947541}, \PYG{l+m}{750599937895083}, \PYG{l+m}{1501199875790165}, \PYG{l+m}{3002399751580331},
+\PYG{l+m}{6004799503160661}, \PYG{l+m}{12009599006321323}, \PYG{l+m}{24019198012642645}, \PYG{l+m}{48038396025285291}, \PYG{l+m}{96076792050570581},
+\PYG{l+m}{192153584101141163}, \PYG{l+m}{384307168202282325}, \PYG{l+m}{768614336404564651}, \PYG{l+m}{1537228672809129301},
+\PYG{l+m}{3074457345618258603}, \PYG{l+m}{6148914691236517205}, \PYG{l+m}{12297829382473034411}\PYG{o}{]}
+
+
+\PYG{o}{[}user@arch src\PYG{o}{]}\PYGZdl{} ./stage2
+Length? \PYG{l+m}{67}
+\PYG{o}{[}\PYG{l+m}{0}, \PYG{l+m}{1}, \PYG{l+m}{1}, \PYG{l+m}{3}, \PYG{l+m}{5}, \PYG{l+m}{11}, \PYG{l+m}{21}, \PYG{l+m}{43}, \PYG{l+m}{85}, \PYG{l+m}{171}, \PYG{l+m}{341}, \PYG{l+m}{683}, \PYG{l+m}{1365}, \PYG{l+m}{2731}, \PYG{l+m}{5461}, \PYG{l+m}{10923}, \PYG{l+m}{21845}, \PYG{l+m}{43691},
+\PYG{l+m}{87381}, \PYG{l+m}{174763}, \PYG{l+m}{349525}, \PYG{l+m}{699051}, \PYG{l+m}{1398101}, \PYG{l+m}{2796203}, \PYG{l+m}{5592405}, \PYG{l+m}{11184811}, \PYG{l+m}{22369621}, \PYG{l+m}{44739243},
+\PYG{l+m}{89478485}, \PYG{l+m}{178956971}, \PYG{l+m}{357913941}, \PYG{l+m}{715827883}, \PYG{l+m}{1431655765}, \PYG{l+m}{2863311531}, \PYG{l+m}{5726623061}, \PYG{l+m}{11453246123},
+\PYG{l+m}{22906492245}, \PYG{l+m}{45812984491}, \PYG{l+m}{91625968981}, \PYG{l+m}{183251937963}, \PYG{l+m}{366503875925}, \PYG{l+m}{733007751851}, \PYG{l+m}{1466015503701},
+\PYG{l+m}{2932031007403}, \PYG{l+m}{5864062014805}, \PYG{l+m}{11728124029611}, \PYG{l+m}{23456248059221}, \PYG{l+m}{46912496118443}, \PYG{l+m}{93824992236885},
+\PYG{l+m}{187649984473771}, \PYG{l+m}{375299968947541}, \PYG{l+m}{750599937895083}, \PYG{l+m}{1501199875790165}, \PYG{l+m}{3002399751580331},
+\PYG{l+m}{6004799503160661}, \PYG{l+m}{12009599006321323}, \PYG{l+m}{24019198012642645}, \PYG{l+m}{48038396025285291}, \PYG{l+m}{96076792050570581},
+\PYG{l+m}{192153584101141163}, \PYG{l+m}{384307168202282325}, \PYG{l+m}{768614336404564651}, \PYG{l+m}{1537228672809129301},
+\PYG{l+m}{3074457345618258603}, \PYG{l+m}{6148914691236517205}, \PYG{l+m}{12297829382473034411},
+Overflow
+\end{Verbatim}

@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+* BUILD TEST \PYGZhy{} calculator/provided/build : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}0.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}2.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}3.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}bad\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}bad\PYGZhy{}2.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}bad\PYGZhy{}3.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}bad\PYGZhy{}4.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}float\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}float\PYGZhy{}2.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}longer\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}negative\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/provided/prog\PYGZhy{}negative\PYGZhy{}2.out : pass
+\PYG{l+m}{38} out of \PYG{l+m}{38} tests passed
+\end{Verbatim}

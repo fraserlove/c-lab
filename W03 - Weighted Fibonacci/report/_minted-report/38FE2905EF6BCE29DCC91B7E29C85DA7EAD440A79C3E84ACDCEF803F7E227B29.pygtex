@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+Testing CS2002 W03\PYGZhy{}Exercise
+\PYGZhy{} Looking \PYG{k}{for} submission \PYG{k}{in} a directory called \PYG{l+s+s1}{\PYGZsq{}src\PYGZsq{}}: found \PYG{k}{in} current directory
+* BUILD TEST \PYGZhy{} public/build\PYGZhy{}clean : pass
+* BUILD TEST \PYGZhy{} public/stage1/build\PYGZhy{}stage1 : pass
+* COMPARISON TEST \PYGZhy{} public/stage1/prog\PYGZhy{}stage1\PYGZhy{}length\PYGZhy{}0.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage1/prog\PYGZhy{}stage1\PYGZhy{}length\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage1/prog\PYGZhy{}stage1\PYGZhy{}length\PYGZhy{}10.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage1/prog\PYGZhy{}stage1\PYGZhy{}length\PYGZhy{}3.out : pass
+* BUILD TEST \PYGZhy{} public/stage2/build\PYGZhy{}stage2 : pass
+* COMPARISON TEST \PYGZhy{} public/stage2/prog\PYGZhy{}stage2\PYGZhy{}length\PYGZhy{}0.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage2/prog\PYGZhy{}stage2\PYGZhy{}length\PYGZhy{}1.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage2/prog\PYGZhy{}stage2\PYGZhy{}length\PYGZhy{}10.out : pass
+* COMPARISON TEST \PYGZhy{} public/stage2/prog\PYGZhy{}stage2\PYGZhy{}length\PYGZhy{}3.out : pass
+\PYG{l+m}{11} out of \PYG{l+m}{11} tests passed
+\end{Verbatim}

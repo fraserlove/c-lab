@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+* BUILD TEST \PYGZhy{} build\PYGZhy{}clean : pass
+* BUILD TEST \PYGZhy{} calculator/comprehensive/build : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}exp\PYGZhy{}non\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}neg\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}num\PYGZhy{}zero.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}zero\PYGZhy{}num.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}add\PYGZhy{}zero\PYGZhy{}zero.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}div\PYGZhy{}by\PYGZhy{}negative.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}div\PYGZhy{}by\PYGZhy{}small\PYGZhy{}num.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}div\PYGZhy{}by\PYGZhy{}zero.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}div\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}div\PYGZhy{}neg\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}infix\PYGZhy{}expr.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}multi\PYGZhy{}exp\PYGZhy{}non\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}multi\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}multi\PYGZhy{}neg\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}multiple\PYGZhy{}operands.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}multiple\PYGZhy{}operators.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}postfixed\PYGZhy{}expr.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}prefixed\PYGZhy{}expr.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}recurring\PYGZhy{}rounded.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}sub\PYGZhy{}exp.out : pass
+* COMPARISON TEST \PYGZhy{} calculator/comprehensive/prog\PYGZhy{}sub\PYGZhy{}neg\PYGZhy{}exp.out : pass
+\end{Verbatim}
