@@ -10,11 +10,14 @@
 
 #include <stdbool.h>
 
+typedef int Pipe[2];
+
 typedef void (*Function)(int input, int output);
 
 /* You should define your struct Pipeline here */
 typedef struct Pipeline {
     Function* stages;
+    Pipe* pipes;
     int size;
 } Pipeline;
 

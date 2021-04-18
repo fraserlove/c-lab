@@ -13,19 +13,22 @@
 
 #define MAX_PIPELINE_SIZE 1000
 
-typedef int Pipe[2];
-
 Pipeline* new_Pipeline() {
     Pipeline* this = malloc(sizeof(Pipeline));
-    this->stages = malloc(MAX_PIPELINE_SIZE* sizeof(Function));
+    this->stages = malloc(MAX_PIPELINE_SIZE * sizeof(Function));
+    this->pipes = malloc(MAX_PIPELINE_SIZE * sizeof(Pipe));
     this->size = 0;
     return this;
 }
 
 
 bool Pipeline_add(Pipeline* this, Function f) {
-    if (this->size + 1 < MAX_PIPELINE_SIZE) {
-        this->stages[this->size++] = f;
+    if (this->size < MAX_PIPELINE_SIZE) {
+        this->stages[this->size] = f;
+        if (pipe(this->pipes[this->size++]) < 0) {
+            perror("pipe");
+            exit(1);
+        }
         return true;
     }
     return false;
@@ -33,14 +36,7 @@ bool Pipeline_add(Pipeline* this, Function f) {
 
 
 void Pipeline_execute(Pipeline* this) {
-    Pipe pipes[this->size];
     pid_t cpid;
-    for (int i = 0; i < this->size; i++) {
-        if (pipe(pipes[i]) < 0) {
-            perror("pipe");
-            exit(1);
-        }
-    }
 
     for (int i = 0; i < this->size; i++) {
         if ((cpid = fork()) < 0) {
@@ -49,10 +45,10 @@ void Pipeline_execute(Pipeline* this) {
         }
         else if (cpid == 0) {
             if (i < this->size - 1) {
-                this->stages[i](pipes[i][0], pipes[i+1][1]);
+                this->stages[i](this->pipes[i][0], this->pipes[i+1][1]);
             }
             else {
-                this->stages[i](pipes[i][0], 0);
+                this->stages[i](this->pipes[i][0], 0);
             }
         }
         else {
