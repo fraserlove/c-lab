@@ -1,16 +1,8 @@
-/*
- * SumSquaresPipeline.c
- *
- *  Created on: 26 Mar 2021
- *      Author: jonl
- */
-
-
-#include "Pipeline.h"
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+#include "Pipeline.h"
 
 int num_ints;
 

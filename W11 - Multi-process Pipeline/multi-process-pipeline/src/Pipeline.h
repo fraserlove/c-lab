@@ -1,20 +1,15 @@
-/*
- * Pipeline.h
- *
- *  Created on: 26 Mar 2021
- *      Author: jonl
- */
 
 #ifndef PIPELINE_H_
 #define PIPELINE_H_
 
 #include <stdbool.h>
 
+#define MAX_PIPELINE_SIZE 1000
+
 typedef int Pipe[2];
 
 typedef void (*Function)(int input, int output);
 
-/* You should define your struct Pipeline here */
 typedef struct Pipeline {
     Function* stages;
     Pipe* pipes;

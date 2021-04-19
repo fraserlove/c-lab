@@ -1,17 +1,8 @@
-/*
- * Pipeline.c
- *
- *  Created on: 26 Mar 2021
- *      Author: jonl
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "Pipeline.h"
-
-#define MAX_PIPELINE_SIZE 1000
 
 Pipeline* new_Pipeline() {
     Pipeline* this = malloc(sizeof(Pipeline));
@@ -23,10 +14,10 @@ Pipeline* new_Pipeline() {
 
 
 bool Pipeline_add(Pipeline* this, Function f) {
-    if (this->size < MAX_PIPELINE_SIZE) {
+    if (this->size < MAX_PIPELINE_SIZE) { // Only add a new process to the pipeline if there is sufficient space for it
         this->stages[this->size] = f;
-        if (pipe(this->pipes[this->size++]) < 0) {
-            perror("pipe");
+        if (pipe(this->pipes[this->size++]) < 0) { // Creating a new pipe for the new stage to communicate with
+            perror("pipe() failed"); // Exit if there is an error when creating a pipe
             exit(1);
         }
         return true;
@@ -37,23 +28,24 @@ bool Pipeline_add(Pipeline* this, Function f) {
 
 void Pipeline_execute(Pipeline* this) {
     pid_t cpid;
-
     for (int i = 0; i < this->size; i++) {
-        if ((cpid = fork()) < 0) {
-            perror("fork");
+        if ((cpid = fork()) < 0) { // Create new child process
+            perror("fork() failed"); // Exit process if a new child process was unable to be created
             exit(1);
         }
-        else if (cpid == 0) {
+        else if (cpid == 0) {  // Child
             if (i < this->size - 1) {
+                // Input of function is read end of current pipe and output is into the write end of the next pipe
                 this->stages[i](this->pipes[i][0], this->pipes[i+1][1]);
             }
             else {
+                // On the last pipe we can discard the write end
                 this->stages[i](this->pipes[i][0], 0);
             }
         }
-        else {
-            wait(NULL);
-            exit(0);
+        else {  // Parent
+            wait(NULL); // Wait for child process to finish execution
+            return;
         }
     }
 }
@@ -61,6 +53,6 @@ void Pipeline_execute(Pipeline* this) {
 
 void Pipeline_free(Pipeline* this) {
     free(this->stages);
+    free(this->pipes);
     free(this);
 }
-
