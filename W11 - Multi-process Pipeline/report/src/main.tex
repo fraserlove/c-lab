@@ -1,0 +1,93 @@
+%! Author = fraser
+%! Date = 03/04/2021
+
+% Preamble
+\documentclass{article}
+
+% Packages
+\usepackage{fancyvrb}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{xparse}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{minted}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+\newcommand{\lnor}{\bar{\hspace*{0.3em}\lor\hspace*{0.2em}}}
+\newcommand{\lnand}{\bar{\hspace*{0.3em}\land\hspace*{0.2em}}}
+\newcommand{\lxor}{\oplus}
+\newcommand{\lxnor}{\hspace*{0.3em}\underbar{\hspace*{-0.3em}\lnor\hspace*{-0.2em}}\hspace*{0.2em}}
+\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
+\newcommand{\size}[2]{{\fontsize{#1}{0}\selectfont#2}}
+\newenvironment{sizepar}[2]
+{\par\fontsize{#1}{#2}\selectfont}
+{\par}
+
+% Document
+\begin{document}
+
+    \nocite{*}
+
+    \begin{center}
+        \Huge
+        CS2002 Week 11 Practical
+
+        \vspace{0.5cm}
+
+        \textbf{Logic}
+
+        \vspace{1cm}
+        \LARGE
+        19th April 2021
+
+        \large
+        \vspace{1.5cm}
+
+        \textbf{Matriculation Number: 200002548}
+
+        \vspace{0.5cm}
+
+        \textbf{Tutor: Marco Caminati}
+
+    \end{center}
+
+    \vspace*{3cm}
+
+    \tableofcontents
+
+    \newpage
+    \section{Introduction}
+    The aim of this practical was to gain experience with processes, multi-process pipelines and simple inter-process communication (IPC)
+    in C. In this practical we had to design and implement a data processing pipeline consisting of a number of processing stages, connected in series
+    and use pipes for inter-process communication.
+    The pipeline implementation should allow for an arbitrary number of stages to be added to the pipeline, with each stage getting its own dedicated process.
+
+    \section{Design and Implementation}
+    \subsection{Pipeline Struct}
+    The \verb+Pipeline+ struct is defined within \verb+pipeline.h+.
+    The struct contains pointers called \verb+stages+ and \verb+pipes+ that point to dynamically allocated arrays.
+    The \verb+stages+ array contains pointers that point to functions to be included in the pipeline and given an independent process.
+    The \verb+pipes+ array contains further arrays of length two that contain the file descriptors associated with the pipes.
+    These arrays of length two use \verb+typedef+ so that they can simply be refered to as a \verb+Pipe+ to increase readability.
+
+    \begin{thebibliography}{10}
+        \bibitem{numeric}
+        WillNess, \textit{Sieve of Eratosthenes}, 14-03-2013, accessed 19-04-2021, \\\texttt{https://en.wikipedia.org/w/index.php?title=Sieve_of_Eratosthenes&oldid=544116469}
+
+        \bibitem{numeric}
+        WhozCraig, \textit{Using pipe to pass integer values between parent and child}, 12-10-2012, accessed 19-04-2021, \\\texttt{https://stackoverflow.com/a/12864595}
+
+        \bibitem{numeric}
+        davmac, \textit{What exactly happens when you create a pipe after a fork() command?}, 27-03-2018, accessed 19-04-2021, \\\texttt{https://stackoverflow.com/a/49520618}
+
+        \bibitem{numeric}
+        The Linux Documentation Project, \textit{Creating Pipes in C}, 29-03-1996, accessed 19-04-2021, \\\texttt{https://tldp.org/LDP/lpg/node11.html}
+
+    \end{thebibliography}
+\end{document}
