@@ -16,17 +16,7 @@
 \usepackage{geometry}
 \usepackage{amssymb}
 \usepackage{tikz}
-
-\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
-\newcommand{\lnor}{\bar{\hspace*{0.3em}\lor\hspace*{0.2em}}}
-\newcommand{\lnand}{\bar{\hspace*{0.3em}\land\hspace*{0.2em}}}
-\newcommand{\lxor}{\oplus}
-\newcommand{\lxnor}{\hspace*{0.3em}\underbar{\hspace*{-0.3em}\lnor\hspace*{-0.2em}}\hspace*{0.2em}}
-\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
-\newcommand{\size}[2]{{\fontsize{#1}{0}\selectfont#2}}
-\newenvironment{sizepar}[2]
-{\par\fontsize{#1}{#2}\selectfont}
-{\par}
+\usepackage[outputdir=../out]{minted}
 
 % Document
 \begin{document}
@@ -39,7 +29,7 @@
 
         \vspace{0.5cm}
 
-        \textbf{Logic}
+        \textbf{Multi-processing, Pipelines and Inter-process Communication}
 
         \vspace{1cm}
         \LARGE
@@ -56,7 +46,7 @@
 
     \end{center}
 
-    \vspace*{3cm}
+    \vspace*{2.9cm}
 
     \tableofcontents
 
@@ -92,13 +82,235 @@
     Finally we can increment the \verb+size+ of the \verb+Pipeline+ since we have finished adding a new stage to the pipeline.
     
     \subsection{Executing the Pipeline}
-
+    When executing the pipeline we want to iterate through all the stages and create processes for each.
+    Hence, we use \verb+fork()+ to create a new child process.
+    If \verb+fork()+ returns an integer less than 0 then we have an error, and the child process is unable to be created.
+    If this happens we produce an error message and exit out of the program.
+    However, if once we have forked the current process has the child process id (\verb+cpid+) of \verb+0+ then we can run the current stage in our pipeline.
+    Running the stage involves executing the function at the current index and passing in the read end of the current pipe as our input to the function, and the write end of the next pipe as our output.
+    This allows for the inter-process communication between the different stages as the output from this stage will be piped into the input of the next stage.
+    However, if we are on the last stage in the pipeline, then there is no need to pipe into the output via the write end of the pipe, hence we have an edge case where a value of \verb+0+ is passed in instead.
+    If the current process does not have the child process id (\verb+cpid+) of \verb+0+ then the process is a parent process and so must wait for its child to finish before returning to the \verb+main()+ function from which the program exits.
+    \\ \\ This way of creating the pipeline means that each stage in the pipeline has the previous stage as its parent, therefore all functions are executed in the right order so no synchronisation errors occur.
 
     \subsection{Pipeline Cleanup}
+    The \verb+Pipeline+ struct and the \verb+stages+ and \verb+pipes+ arrays were dynamically allocated using \verb+malloc()+ and therefore need to be \verb+free()+'d to free up the memory for other programs and avoid a memory leak.
+    The \verb+stages+ and \verb+pipes+ arrays need to be freed first because their reference is maintained by the \verb+Pipeline+ and so if that were deallocated first their would be dangling pointers and the \verb+stages+ and \verb+pipes+ arrays may not be able to be referenced when freeing the memory.
+
+    \section{Testing}
+    \subsection{Building Tests}
+    To test the operation of the pipeline three pipeline compatible programs were designed and implemented alongside the supplied \verb+SievePipeline.c+ and \verb+SumSquaresPipeline.c+.
+    All the tests are contained within the \verb+./test+ directory and can be compiled and built using \verb+make+ in the \verb+./src+ directory.
+
+        \begin{minted}{shell}
+        $ make
+        clang -g -Wall -Wextra -c SumSquaresPipeline.c
+        clang -g -Wall -Wextra -c Pipeline.c
+        clang -g -Wall -Wextra SumSquaresPipeline.o Pipeline.o -o tests/Sum
+        SquaresPipeline
+        clang -g -Wall -Wextra -c SievePipeline.c
+        clang -g -Wall -Wextra SievePipeline.o Pipeline.o -o tests/SievePip
+        eline
+        clang -g -Wall -Wextra -c SendIntegerPipeline.c
+        clang -g -Wall -Wextra SendIntegerPipeline.o Pipeline.o -o tests/Sen
+        dIntegerPipeline
+        clang -g -Wall -Wextra -c DoubleIntegerPipeline.c
+        clang -g -Wall -Wextra DoubleIntegerPipeline.o Pipeline.o -o tests/D
+        oubleIntegerPipeline
+        clang -g -Wall -Wextra -c FibonacciSequencePipeline.c
+        clang -g -Wall -Wextra FibonacciSequencePipeline.o Pipeline.o -o test
+        s/FibonacciSequencePipeline
+        \end{minted}
+
+    \subsection{SendIntegerPipeline Test}
+    \noindent The first of these programs was \verb+SendIntegerPipeline.c+ which is a very basic program that simply sends an integer from a parent process to its child via a single pipe.
+    This program was used to ensure that the \verb+new_Pipeline()+, \verb+Pipeline_add()+ and a very basic implementation of \verb+Pipeline_execute()+ worked correctly before moving onto larger pipelines with more children and pipes.
+
+        \begin{minted}{shell}
+        $ ./tests/SendIntegerPipeline
+        7
+        Setting up pipeline to send integer 7 from parent to child process.
+        sendInt: process 89910, parent 89903
+        Sent: 7
+        receiveInt: process 89911, parent 89910
+        Received: 7
+        \end{minted}
+
+    \noindent From the results of this program it can be seen that the integer was successfully sent from the parent process (\verb+sendInt()+) to the child process (\verb+receiveInt()+).
+    
+    \subsection{DoubleIntegerPipeline Test}
+    The second test \verb+DoubleIntegerPipeline.c+ follows on from the first test, and introduces a new function in the middle that doubles integer as it is being sent.
+    Hence, this test has three stages, one for sending the integer - \verb+sendInt()+, one for doubling it - \verb+doubleInt()+, and one for receiving and displaying the output - \verb+receiveInt()+.
+    This will test if the pipeline can handle multiple stages and multiple pipelines, as in this example the first stage will be a parent of the second stage and a grandparent of the third stage.
+    Therefore, pipes will be needed between both parent and child pairs.
+
+        \begin{minted}{shell}
+        $ ./tests/DoubleIntegerPipeline
+        7
+        Setting up pipeline to send integer 7 from parent to child process.
+        sendInt: process 90554, parent 90548
+        Sent: 7
+        doubleInt: process 90555, parent 90554
+        Doubling: 7
+        receiveInt: process 90556, parent 90555
+        Received: 14
+        \end{minted}
+
+    \noindent This test demonstrates that the pipeline works with three stages and so three separate processes with connected pipelines.
+    Furthermore, it can be seen from the process id's that the process creation works as designed with an initial parent process and each stage of the pipeline being the subsequent child of the parent process.
+    
+    \subsection{FibonacciSequencePipeline Test}
+    The final test was used to demonstrate how a pipeline would be created and perform on a problem that required n stages, such as calculating the Fibonacci sequence up to n integers.
+    The \verb+FibonacciSe+ \verb+quencePipeline.c+ test contains two functions. \verb+fibSetup()+ creates the initial conditions needed to generate the fibonacci sequence and writes the first two integers \verb+0+ and \verb+1+ to the pipe, to be read by the next process.
+    The other function, \verb+runFibonacci()+ reads two inputs from the last pipe, adds them together, displays the result then writes the result, and the largest input to the next pipe, which will then be read by the next process, if one exists.
+    The \verb+runFibonacci()+ function is added to pipeline as a separate stage n times, to produce a \verb+Pipeline+ of size n and Fibonacci sequence of length n.
+    This test will help determine how well the pipeline can manage when adding and executing an arbitrary number of stages, as required by the practical specification.
+    Like the previous example the test should generate a pipeline whereby when executing the stages, a chain of processes is created, where each process is a child of the process before it and a pipe connects the child to its parent so that multi-process communication can occur.
+
+        \begin{minted}{shell}
+        $ ./tests/FibonacciSequencePipeline
+        7
+        Setting up pipeline to calculate 7 numbers in the Fibonacci Sequence
+        fibSetup: process 90967, parent 90961
+        Fibonacci: process 90968, parent 90967: fib = 1
+        Fibonacci: process 90969, parent 90968: fib = 2
+        Fibonacci: process 90970, parent 90969: fib = 3
+        Fibonacci: process 90971, parent 90970: fib = 5
+        Fibonacci: process 90972, parent 90971: fib = 8
+        Fibonacci: process 90973, parent 90972: fib = 13
+        Fibonacci: process 90974, parent 90973: fib = 21
+
+
+        $ ./tests/FibonacciSequencePipeline
+        30
+        Setting up pipeline to calculate 30 numbers in the Fibonacci Sequence
+        fibSetup: process 91151, parent 91145
+        Fibonacci: process 91152, parent 91151: fib = 1
+        Fibonacci: process 91153, parent 91152: fib = 2
+        Fibonacci: process 91154, parent 91153: fib = 3
+        Fibonacci: process 91155, parent 91154: fib = 5
+        Fibonacci: process 91156, parent 91155: fib = 8
+        Fibonacci: process 91157, parent 91156: fib = 13
+        Fibonacci: process 91158, parent 91157: fib = 21
+        Fibonacci: process 91159, parent 91158: fib = 34
+        Fibonacci: process 91160, parent 91159: fib = 55
+        Fibonacci: process 91161, parent 91160: fib = 89
+        Fibonacci: process 91162, parent 91161: fib = 144
+        Fibonacci: process 91163, parent 91162: fib = 233
+        Fibonacci: process 91164, parent 91163: fib = 377
+        Fibonacci: process 91165, parent 91164: fib = 610
+        Fibonacci: process 91166, parent 91165: fib = 987
+        Fibonacci: process 91167, parent 91166: fib = 1597
+        Fibonacci: process 91168, parent 91167: fib = 2584
+        Fibonacci: process 91169, parent 91168: fib = 4181
+        Fibonacci: process 91170, parent 91169: fib = 6765
+        Fibonacci: process 91171, parent 91170: fib = 10946
+        Fibonacci: process 91172, parent 91171: fib = 17711
+        Fibonacci: process 91173, parent 91172: fib = 28657
+        Fibonacci: process 91174, parent 91173: fib = 46368
+        Fibonacci: process 91175, parent 91174: fib = 75025
+        Fibonacci: process 91176, parent 91175: fib = 121393
+        Fibonacci: process 91177, parent 91176: fib = 196418
+        Fibonacci: process 91178, parent 91177: fib = 317811
+        Fibonacci: process 91179, parent 91178: fib = 514229
+        Fibonacci: process 91180, parent 91179: fib = 832040
+        Fibonacci: process 91181, parent 91180: fib = 1346269
+        \end{minted}
+
+    \noindent From these results it is clear that the pipeline works correctly for any arbitrary amount of stages as the Fibonacci sequence generated.
+    Most importantly there are no synchronisation issues between processes as the sequence is in order.
+    Furthermore, the correct chain of processes can be observed where each parent executes before its child process all the way until we reach the last child process.
+    The pipes between each process work correctly as well since the correct values from the parent process are written to the pipe and read by the child process.
+    The only issue that can arise is that without bounds checking applied to the length of the Fibonacci sequence to generate a sequence and therefore chain of processes and hence pipeline may be generated that is larger than the \verb+MAX_PIPELINE_SIZE+ set out in \verb+Pipeline.h+.
+    The example below shows what happens in this case, with \verb+MAX_PIPELINE_SIZE+ set to \verb+10+.
+
+        \begin{minted}{shell}
+        $ ./tests/FibonacciSequencePipeline
+        20
+        Setting up pipeline to calculate 20 numbers in the Fibonacci Sequence
+
+        $
+        \end{minted}
+
+    \noindent As can be seen above the program exits and does not run if the number of stages means that the number of processes in the pipeline will be greater than the \verb+MAX_PIPELINE_SIZE+.
+    Therefore from these tests we can conclude that both the remaining tests - \verb+SumSquaresPipeline.c+ and \verb+SievePipeline.c+ should produce the correct results.
+    
+    \subsection{Standard Tests}
+    The first test, \verb+SumSquaresPipeline.c+ has three stages and hence three processes.
+
+        \begin{minted}{shell}
+        $ ./tests/SumSquaresPipeline
+        7
+        Setting up pipeline to calculate the sum of squares of integers 1 to 7.
+        generateInts: process 92721, parent 92714
+        squareInts: process 92722, parent 92721
+        sumIntsAndPrint: process 92723, parent 92722
+        sumIntsAndPrint: result = 140
+        \end{minted}
+
+    \noindent $7^2 + 6^2 + 5^2 + 4^2 + 3^2 + 2^2 + 1^2 = 140$, hence, the test has passed, and the pipeline is working correctly.
+    The second test \verb+SievePipeline.c+ has two functions and n+1 stages, where n in the number of primes in a given range to look for.
+
+        \begin{minted}{shell}
+        $ ./SievePipeline
+        5
+        16
+        Setting up pipeline to sieve out the first 5 prime numbers up to 16
+        generateInts: process 93364, parent 93363
+        sieveInts: process 93365, parent 93364: prime = 2
+        sieveInts: process 93366, parent 93365: prime = 3
+        sieveInts: process 93367, parent 93366: prime = 5
+        sieveInts: process 93368, parent 93367: prime = 7
+        sieveInts: process 93369, parent 93368: prime = 11
+
+        $ ./tests/SievePipeline
+        25
+        100
+        Setting up pipeline to sieve out the first 25 prime numbers up to 100
+        generateInts: process 93981, parent 93970
+        sieveInts: process 93982, parent 93981: prime = 2
+        sieveInts: process 93983, parent 93982: prime = 3
+        sieveInts: process 93984, parent 93983: prime = 5
+        sieveInts: process 93985, parent 93984: prime = 7
+        sieveInts: process 93986, parent 93985: prime = 11
+        sieveInts: process 93987, parent 93986: prime = 13
+        sieveInts: process 93988, parent 93987: prime = 17
+        sieveInts: process 93989, parent 93988: prime = 19
+        sieveInts: process 93990, parent 93989: prime = 23
+        sieveInts: process 93991, parent 93990: prime = 29
+        sieveInts: process 93992, parent 93991: prime = 31
+        sieveInts: process 93993, parent 93992: prime = 37
+        sieveInts: process 93994, parent 93993: prime = 41
+        sieveInts: process 93995, parent 93994: prime = 43
+        sieveInts: process 93996, parent 93995: prime = 47
+        sieveInts: process 93997, parent 93996: prime = 53
+        sieveInts: process 93998, parent 93997: prime = 59
+        sieveInts: process 93999, parent 93998: prime = 61
+        sieveInts: process 94000, parent 93999: prime = 67
+        sieveInts: process 94001, parent 94000: prime = 71
+        sieveInts: process 94002, parent 94001: prime = 73
+        sieveInts: process 94003, parent 94002: prime = 79
+        sieveInts: process 94004, parent 94003: prime = 83
+        sieveInts: process 94005, parent 94004: prime = 89
+        sieveInts: process 94006, parent 94005: prime = 97
+        \end{minted}
+
+    \noindent The pipeline correctly calculates n the prime numbers in correct order for some range from 1 to k.
+    Hence it can be seen that each of the stages and pipes works correctly.
+    \\ \\ From the results of all the tests it can clearly be seen that the pipeline has been implemented correctly to handle n stages.
+    The creating and execution of the pipeline has followed from the interface and comments made within the pipeline definition.
+    The pipeline creates a correct n amount of processes where each process is part of a chain of processes.
+    Each of these processes uses a pipe to read from its parent process and writes to its child process to allow for multi-process communication.
+
+    \section{Conclusion}
+    During this practical I have increased my understanding of C and Systems Programming.
+    Namely, I have explored the features of Processes, Pipelines and Inter-process Communication (IPC) using pipes.
+    Furthermore, I have encountered the complexities encountered with dealing with processes with parallel execution and synchronisation difficulties that may occur.
+    Debugging in particular can be even harder when dealing with multiple processes, which is why testing during the initial stages and careful planning proves crucial in development.
     
     \begin{thebibliography}{10}
         \bibitem{numeric}
-        WillNess, \textit{Sieve of Eratosthenes}, 14-03-2013, accessed 19-04-2021, \\\texttt{https://en.wikipedia.org/w/index.php?title=Sieve_of_Eratosthenes&oldid=544116469}
+        WillNess, \textit{Sieve of Eratosthenes}, 14-03-2013, accessed 19-04-2021, \\\texttt{https://en.wikipedia.org/w/index.php?title=Sieve\_of\_Eratosthenes\&oldid=544116469}
 
         \bibitem{numeric}
         WhozCraig, \textit{Using pipe to pass integer values between parent and child}, 12-10-2012, accessed 19-04-2021, \\\texttt{https://stackoverflow.com/a/12864595}
