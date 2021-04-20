@@ -14,7 +14,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{geometry}
-\usepackage{minted}
 \usepackage{amssymb}
 \usepackage{tikz}
 
@@ -71,11 +70,32 @@
     \section{Design and Implementation}
     \subsection{Pipeline Struct}
     The \verb+Pipeline+ struct is defined within \verb+pipeline.h+.
-    The struct contains pointers called \verb+stages+ and \verb+pipes+ that point to dynamically allocated arrays.
+    The struct contains pointers called \verb+stages+ and \verb+pipes+ that both point to dynamically allocated arrays.
     The \verb+stages+ array contains pointers that point to functions to be included in the pipeline and given an independent process.
-    The \verb+pipes+ array contains further arrays of length two that contain the file descriptors associated with the pipes.
-    These arrays of length two use \verb+typedef+ so that they can simply be refered to as a \verb+Pipe+ to increase readability.
+    The \verb+pipes+ array contains further arrays of size two that contain the file descriptors associated with the pipes.
+    These arrays use \verb+typedef+ so that they can simply be referred to as a \verb+Pipe+ to increase readability.
+    Also included within the struct is \verb+size+, an integer used to enumerate the size of the pipeline.
 
+    \subsection{Creating a Pipeline}
+    Firstly we want our \verb+Pipeline+ struct to by dynamically allocated, so we call \verb+malloc+ and pass in the size of the \verb+Pipeline+ struct.
+    Then the \verb+stages+ and \verb+pipes+ arrays are dynamically allocated.
+    The constant \verb+MAX_PIPELINE_SIZE+ is used to keep track of the maximum number of stages that can be added to the pipeline.
+    This constant is used to allocate the maximum size used by the functions and pipes.
+    Finally the \verb+size+ of the pipeline is initialised to 0.
+    
+    \subsection{Adding a Stage to the Pipeline}
+    Firstly we only want to add a new stage to the pipeline if the pipeline is not already full, hence we check if the current size is less than the maximum pipeline size.
+    Once this condition has been checked we can add a new stage to the pipeline by assigning the current array element to the function \verb+f+ passed in, thereby adding the function as a new stage in the pipeline.
+    The new stage needs a corresponding pipe so that it can communicate with the other processes in the pipeline.
+    We use the \verb+pipe()+ function, passing in the current pipe being accessed in the \verb+pipes+ array.
+    This function returns an integer less than 0, if an error has occurred when setting up the pipe, hence we display an error message and exit the program if this happens.
+    Finally we can increment the \verb+size+ of the \verb+Pipeline+ since we have finished adding a new stage to the pipeline.
+    
+    \subsection{Executing the Pipeline}
+
+
+    \subsection{Pipeline Cleanup}
+    
     \begin{thebibliography}{10}
         \bibitem{numeric}
         WillNess, \textit{Sieve of Eratosthenes}, 14-03-2013, accessed 19-04-2021, \\\texttt{https://en.wikipedia.org/w/index.php?title=Sieve_of_Eratosthenes&oldid=544116469}
