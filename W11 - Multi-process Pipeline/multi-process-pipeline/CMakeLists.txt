@@ -9,4 +9,4 @@ add_executable(multi_process_pipeline
         src/Pipeline.c
         src/Pipeline.h
         src/SievePipeline.c
-        src/SumSquaresPipeline.c)
+        src/SumSquaresPipeline.c src/SendIntegerPipeline.c src/DoubleIntegerPipeline.c src/FibonacciSequencePipeline.c)
