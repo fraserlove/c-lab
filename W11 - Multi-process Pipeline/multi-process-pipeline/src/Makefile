@@ -5,20 +5,23 @@ GFLAGS = -Wall -Wextra
 CFLAGS = $(DFLAG) $(GFLAGS) -c
 LFLAGS = $(DFLAG) $(GFLAGS)
 
-all: SumSquaresPipeline SievePipeline SendIntegerTest DoubleIntegerTest
+all: SumSquaresPipeline SievePipeline SendIntegerPipeline DoubleIntegerPipeline FibonacciSequencePipeline
 
 
 SumSquaresPipeline: SumSquaresPipeline.o Pipeline.o
-	$(CC) $(LFLAGS) SumSquaresPipeline.o Pipeline.o -o SumSquaresPipeline
+	$(CC) $(LFLAGS) SumSquaresPipeline.o Pipeline.o -o tests/SumSquaresPipeline
 
 SievePipeline: SievePipeline.o Pipeline.o
-	$(CC) $(LFLAGS) SievePipeline.o Pipeline.o -o SievePipeline
+	$(CC) $(LFLAGS) SievePipeline.o Pipeline.o -o tests/SievePipeline
 
-SendIntegerTest: SendIntegerTest.o Pipeline.o
-	$(CC) $(LFLAGS) SendIntegerTest.o Pipeline.o -o SendIntegerTest
+SendIntegerPipeline: SendIntegerPipeline.o Pipeline.o
+	$(CC) $(LFLAGS) SendIntegerPipeline.o Pipeline.o -o tests/SendIntegerPipeline
 
-DoubleIntegerTest: DoubleIntegerTest.o Pipeline.o
-	$(CC) $(LFLAGS) DoubleIntegerTest.o Pipeline.o -o DoubleIntegerTest
+DoubleIntegerPipeline: DoubleIntegerPipeline.o Pipeline.o
+	$(CC) $(LFLAGS) DoubleIntegerPipeline.o Pipeline.o -o tests/DoubleIntegerPipeline
+
+FibonacciSequencePipeline: FibonacciSequencePipeline.o Pipeline.o
+	$(CC) $(LFLAGS) FibonacciSequencePipeline.o Pipeline.o -o tests/FibonacciSequencePipeline
 
 
 SumSquaresPipeline.o: SumSquaresPipeline.c
@@ -27,11 +30,14 @@ SumSquaresPipeline.o: SumSquaresPipeline.c
 SievePipeline.o: SievePipeline.c
 	$(CC) $(CFLAGS) SievePipeline.c
 
-SendIntegerTest.o: SendIntegerTest.c
-	$(CC) $(CFLAGS) SendIntegerTest.c
+SendIntegerPipeline.o: SendIntegerPipeline.c
+	$(CC) $(CFLAGS) SendIntegerPipeline.c
 
-DoubleIntegerTest.o: DoubleIntegerTest.c
-	$(CC) $(CFLAGS) DoubleIntegerTest.c
+DoubleIntegerPipeline.o: DoubleIntegerPipeline.c
+	$(CC) $(CFLAGS) DoubleIntegerPipeline.c
+
+FibonacciSequencePipeline.o: FibonacciSequencePipeline.c
+	$(CC) $(CFLAGS) FibonacciSequencePipeline.c
 
 
 Pipeline.o: Pipeline.c Pipeline.h
@@ -39,4 +45,4 @@ Pipeline.o: Pipeline.c Pipeline.h
 
 
 clean:
-	$(RM) SumSquaresPipeline SievePipeline SendIntegerTest DoubleIntegerTest *.o
+	$(RM) tests/SumSquaresPipeline tests/SievePipeline tests/SendIntegerPipeline tests/DoubleIntegerPipeline tests/FibonacciSequencePipeline *.o

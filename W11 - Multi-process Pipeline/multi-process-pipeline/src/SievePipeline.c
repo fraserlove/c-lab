@@ -1,8 +1,8 @@
-#include "Pipeline.h"
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+#include "Pipeline.h"
 
 static int max_ints;
 static int number_of_primes;

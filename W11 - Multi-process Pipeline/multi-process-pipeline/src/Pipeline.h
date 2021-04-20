@@ -1,4 +1,3 @@
-
 #ifndef PIPELINE_H_
 #define PIPELINE_H_
 

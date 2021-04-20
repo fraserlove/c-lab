@@ -45,7 +45,7 @@ void Pipeline_execute(Pipeline* this) {
         }
         else {  // Parent
             wait(NULL); // Wait for child process to finish execution
-            return;
+            exit(0);
         }
     }
 }
