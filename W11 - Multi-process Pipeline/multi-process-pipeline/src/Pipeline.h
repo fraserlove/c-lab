@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define MAX_PIPELINE_SIZE 1000
+#define MAX_PIPELINE_SIZE 100
 
 typedef int Pipe[2];
 

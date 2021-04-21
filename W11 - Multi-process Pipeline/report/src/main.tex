@@ -65,6 +65,12 @@
     The \verb+pipes+ array contains further arrays of size two that contain the file descriptors associated with the pipes.
     These arrays use \verb+typedef+ so that they can simply be referred to as a \verb+Pipe+ to increase readability.
     Also included within the struct is \verb+size+, an integer used to enumerate the size of the pipeline.
+    \\ \\ The design decision was made to include the Pipes within the pipeline struct since it reduced the complexity of the program.
+    This action however trades storage for time efficiency.
+    Extra storage space is consumed because on creation of the Pipeline we dynamically allocate the maximum size that the pipes would take up, given the \verb+MAX_PIPELINE_SIZE+ avaliable.
+    As an example if the \verb+MAX_PIPELINE_SIZE+ was set to \verb+100+ whereas the pipelined program only had \verb+3+ stages then only 3\% of the total allocated space in the \verb+pipes+ array (and in fact the \verb+stages+ array for that matter, although this cannot really be avoided unless a dynamic array or linked list is used) will be used.
+    However the upside to this implementation of the \verb+pipes+ array is that pipes can be created and added to the \verb+pipes+ array at the same point as a new stage is added to the \verb+stages+ array.
+    This means an extra unconditional loop is not needed when executing the pipeline, making execution of the pipeline more efficient and reducing the complexity of executing the pipeline.
 
     \subsection{Creating a Pipeline}
     Firstly we want our \verb+Pipeline+ struct to by dynamically allocated, so we call \verb+malloc+ and pass in the size of the \verb+Pipeline+ struct.
