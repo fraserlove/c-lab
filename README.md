@@ -2,7 +2,7 @@
 
 A collection of C programs ranging from a reverse polish calculator to a multi-process pipeline.
 
-## Installation and Setup
+## Installation and Usage
 
 1. **Clone the Repository:**
 ```bash
